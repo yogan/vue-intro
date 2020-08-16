@@ -11,7 +11,15 @@
 
   <div id="app">
     <div class="product">
-      <h1>{{ product }}</h1>
+
+      <div class="product-image">
+        <img v-bind:src="image" v-bind:alt="description">
+      </div>
+
+      <div class="product-info">
+        <h1>{{ product }}</h1>
+      </div>
+
     </div>
   </div>
 
@@ -19,7 +27,9 @@
     var app = new Vue({
       el: '#app',
       data: {
-        product: 'Socks'
+        product: 'Socks',
+        image: './assets/vmSocks-green-onWhite.jpg',
+        description: 'A pair of green socks'
       }
     })
   </script>
