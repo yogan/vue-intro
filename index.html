@@ -1,20 +1,25 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>My first Vue app</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Product App</title>
   <script src="https://unpkg.com/vue"></script>
   <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
+  <div class="nav-bar"></div>
+
   <div id="app">
-    {{ message }}
+    <div class="product">
+      <h1>{{ product }}</h1>
+    </div>
   </div>
 
   <script>
     var app = new Vue({
       el: '#app',
       data: {
-        message: 'Hello Vue!'
+        product: 'Socks'
       }
     })
   </script>
