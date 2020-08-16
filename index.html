@@ -32,6 +32,14 @@
         <div v-for="variant in variants" :key="variant.id">
           <p>{{ variant.color }}</p>
         </div>
+
+        <button v-on:click="addToCart()">Add to Cart</button>
+        <button @click="removeFromCart()">Remove from Cart</button>
+
+        <div class="cart">
+          <p>Cart: {{ cart }}</p>
+        </div>
+
       </div>
 
     </div>
@@ -49,14 +57,19 @@
         details    : ["80% cotton", "20% polyester", "Looks sweet"],
         variants   : [
           {
-            id: 123,
+            id   : 123,
             color: "green"
           },
           {
-            id: 999,
+            id   : 999,
             color: "blue"
           }
-        ]
+        ],
+        cart: 0
+      },
+      methods: {
+        addToCart: function () { this.cart++ },
+        removeFromCart() { this.cart--; }
       }
     })
   </script>
