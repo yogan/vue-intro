@@ -19,8 +19,7 @@
       <div class="product-info">
         <h1>{{ title }}</h1>
 
-        <p v-if="inventory > 10">In Stock</p>
-        <p v-else-if="inventory <= 10 && inventory > 0">Almost sold out</p>
+        <p v-if="inStock">In Stock</p>
         <p v-else>Out of Stock</p>
 
         <p v-show="onSale"><em>On Sale!</em></p>
@@ -38,8 +37,8 @@
         </div>
 
         <button v-on:click="addToCart()"
-                :disabled="inventory <= 0"
-                :class="{ disabledButton: inventory <= 0 }"
+                :disabled="!inStock"
+                :class="{ disabledButton: !inStock }"
         >Add to Cart</button>
 
         <button @click="removeFromCart()"
@@ -63,20 +62,21 @@
         brand          : 'Vue Mastery',
         product        : 'Socks',
         description    : 'A pair of green socks',
-        inventory      : 8,
         onSale         : true,
         details        : ["80% cotton", "20% polyester", "Looks sweet"],
         selectedVariant: 0,
         variants       : [
           {
-            id   : 123,
-            color: "green",
-            image: './assets/vmSocks-green-onWhite.jpg',
+            id       : 123,
+            color    : "green",
+            image    : './assets/vmSocks-green-onWhite.jpg',
+            inventory: 8,
           },
           {
-            id   : 999,
-            color: "blue",
-            image: './assets/vmSocks-blue-onWhite.jpg',
+            id       : 999,
+            color    : "blue",
+            image    : './assets/vmSocks-blue-onWhite.jpg',
+            inventory: 0,
           },
         ],
         cart: 0,
@@ -96,7 +96,11 @@
 
         image() {
           return this.variants[this.selectedVariant].image
-        }
+        },
+
+        inStock() {
+          return this.variants[this.selectedVariant].inventory > 0
+        },
       }
     })
   </script>
