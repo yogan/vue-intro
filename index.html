@@ -18,10 +18,20 @@
 
       <div class="product-info">
         <h1>{{ product }}</h1>
+
         <p v-if="inventory > 10">In Stock</p>
         <p v-else-if="inventory <= 10 && inventory > 0">Almost sold out</p>
         <p v-else>Out of Stock</p>
+
         <p v-show="onSale"><em>On Sale!</em></p>
+
+        <ul>
+          <li v-for="detail in details">{{ detail }}</li>
+        </ul>
+
+        <div v-for="variant in variants" :key="variant.id">
+          <p>{{ variant.color }}</p>
+        </div>
       </div>
 
     </div>
@@ -35,7 +45,18 @@
         image      : './assets/vmSocks-green-onWhite.jpg',
         description: 'A pair of green socks',
         inventory  : 8,
-        onSale     : true
+        onSale     : true,
+        details    : ["80% cotton", "20% polyester", "Looks sweet"],
+        variants   : [
+          {
+            id: 123,
+            color: "green"
+          },
+          {
+            id: 999,
+            color: "blue"
+          }
+        ]
       }
     })
   </script>
