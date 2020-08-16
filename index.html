@@ -29,11 +29,11 @@
           <li v-for="detail in details">{{ detail }}</li>
         </ul>
 
-        <div v-for="variant in variants"
+        <div v-for="(variant, index) in variants"
              :key="variant.id"
              class="color-box"
              :style="{ backgroundColor: variant.color }"
-             @mouseover="updateVariant(variant)"
+             @mouseover="updateVariant(index)"
         >
         </div>
 
@@ -60,14 +60,14 @@
     var app = new Vue({
       el: '#app',
       data: {
-        brand      : 'Vue Mastery',
-        product    : 'Socks',
-        image      : './assets/vmSocks-green-onWhite.jpg',
-        description: 'A pair of green socks',
-        inventory  : 8,
-        onSale     : true,
-        details    : ["80% cotton", "20% polyester", "Looks sweet"],
-        variants   : [
+        brand          : 'Vue Mastery',
+        product        : 'Socks',
+        description    : 'A pair of green socks',
+        inventory      : 8,
+        onSale         : true,
+        details        : ["80% cotton", "20% polyester", "Looks sweet"],
+        selectedVariant: 0,
+        variants       : [
           {
             id   : 123,
             color: "green",
@@ -82,16 +82,20 @@
         cart: 0,
       },
       methods: {
-        addToCart: function () { this.cart++ },
-        removeFromCart() { this.cart--; },
+        addToCart()      { this.cart++ },
+        removeFromCart() { this.cart-- },
 
-        updateVariant(variant) {
-          this.image = variant.image;
+        updateVariant(index) {
+          this.selectedVariant = index
         }
       },
       computed: {
         title() {
           return `${this.brand} ${this.product}`
+        },
+
+        image() {
+          return this.variants[this.selectedVariant].image
         }
       }
     })
