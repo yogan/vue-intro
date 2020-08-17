@@ -10,11 +10,19 @@
   <div class="nav-bar"></div>
 
   <div id="app">
-    <product></product>
+    <product :premium="premium"></product>
+    <product :premium="true"></product>
+    <product :premium="false"></product>
   </div>
 
   <script>
     Vue.component('product', {
+      props: {
+        premium: {
+          type: Boolean,
+          required: true
+        }
+      },
       template: `
         <div class="product">
 
@@ -29,6 +37,8 @@
             <p v-else>Out of Stock</p>
 
             <p v-show="onSale"><em>On Sale!</em></p>
+
+            <p>{{ shipping }}</p>
 
             <ul>
               <li v-for="detail in details">{{ detail }}</li>
@@ -104,11 +114,18 @@
         inStock() {
           return this.variants[this.selectedVariant].inventory > 0
         },
+
+        shipping() {
+          return `Shipping: ${this.premium ? 'free' : '2.99'}`
+        },
       }
     });
 
     var app = new Vue({
-      el: '#app'
+      el: '#app',
+      data: {
+        premium: true
+      }
     })
   </script>
 </body>
