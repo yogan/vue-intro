@@ -10,9 +10,27 @@
   <div class="nav-bar"></div>
 
   <div id="app">
-    <product :premium="premium"></product>
-    <product :premium="true"></product>
-    <product :premium="false"></product>
+    <div class="cart">
+      <p>Cart: {{ cart }}</p>
+    </div>
+
+    <product
+      :premium="premium"
+      @add-to-cart="addToCart"
+      @remove-from-cart="removeFromCart"
+    ></product>
+
+    <product
+      :premium="true"
+      @add-to-cart="addToCart"
+      @remove-from-cart="removeFromCart"
+    ></product>
+
+    <product
+      :premium="false"
+      @add-to-cart="addToCart"
+      @remove-from-cart="removeFromCart"
+    ></product>
   </div>
 
   <script>
@@ -56,13 +74,9 @@
             >Add to Cart</button>
 
             <button @click="removeFromCart()"
-                    :disabled="cart === 0"
-                    :class="{ disabledButton: cart === 0 }"
+                    :disabled="isInCart(selectedVariant)"
+                    :class="{ disabledButton: isInCart(selectedVariant) }"
             >Remove from Cart</button>
-
-            <div class="cart">
-              <p>Cart: {{ cart }}</p>
-            </div>
 
           </div>
         </div>
@@ -89,12 +103,15 @@
               inventory: 0,
             },
           ],
-          cart: 0,
         };
       },
       methods: {
-        addToCart()      { this.cart++ },
-        removeFromCart() { this.cart-- },
+        addToCart()      { this.$emit('add-to-cart') },
+        removeFromCart() { this.$emit('remove-from-cart') },
+
+        isInCart() {
+          return false; // TODO
+        },
 
         updateVariant(index) {
           this.selectedVariant = index
@@ -136,7 +153,18 @@
     var app = new Vue({
       el: '#app',
       data: {
+        cart   : 0,
         premium: true
+      },
+      methods: {
+        addToCart(addOrRemove) {
+          if (addOrRemove === 'add') {
+            this.cart++
+          }
+          if (addOrRemove === 'remove') {
+            this.cart--
+          }
+        }
       }
     })
   </script>
