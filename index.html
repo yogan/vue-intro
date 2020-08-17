@@ -10,76 +10,79 @@
   <div class="nav-bar"></div>
 
   <div id="app">
-    <div class="product">
-
-      <div class="product-image">
-        <img :src="image" :alt="description">
-      </div>
-
-      <div class="product-info">
-        <h1>{{ title }}</h1>
-
-        <p v-if="inStock">In Stock</p>
-        <p v-else>Out of Stock</p>
-
-        <p v-show="onSale"><em>On Sale!</em></p>
-
-        <ul>
-          <li v-for="detail in details">{{ detail }}</li>
-        </ul>
-
-        <div v-for="(variant, index) in variants"
-             :key="variant.id"
-             class="color-box"
-             :style="{ backgroundColor: variant.color }"
-             @mouseover="updateVariant(index)"
-        >
-        </div>
-
-        <button v-on:click="addToCart()"
-                :disabled="!inStock"
-                :class="{ disabledButton: !inStock }"
-        >Add to Cart</button>
-
-        <button @click="removeFromCart()"
-                :disabled="cart === 0"
-                :class="{ disabledButton: cart === 0 }"
-        >Remove from Cart</button>
-
-        <div class="cart">
-          <p>Cart: {{ cart }}</p>
-        </div>
-
-      </div>
-
-    </div>
+    <product></product>
   </div>
 
   <script>
-    var app = new Vue({
-      el: '#app',
-      data: {
-        brand          : 'Vue Mastery',
-        product        : 'Socks',
-        description    : 'A pair of green socks',
-        onSale         : true,
-        details        : ["80% cotton", "20% polyester", "Looks sweet"],
-        selectedVariant: 0,
-        variants       : [
-          {
-            id       : 123,
-            color    : "green",
-            image    : './assets/vmSocks-green-onWhite.jpg',
-            inventory: 8,
-          },
-          {
-            id       : 999,
-            color    : "blue",
-            image    : './assets/vmSocks-blue-onWhite.jpg',
-            inventory: 0,
-          },
-        ],
-        cart: 0,
+    Vue.component('product', {
+      template: `
+        <div class="product">
+
+          <div class="product-image">
+            <img :src="image" :alt="description">
+          </div>
+
+          <div class="product-info">
+            <h1>{{ title }}</h1>
+
+            <p v-if="inStock">In Stock</p>
+            <p v-else>Out of Stock</p>
+
+            <p v-show="onSale"><em>On Sale!</em></p>
+
+            <ul>
+              <li v-for="detail in details">{{ detail }}</li>
+            </ul>
+
+            <div v-for="(variant, index) in variants"
+                :key="variant.id"
+                class="color-box"
+                :style="{ backgroundColor: variant.color }"
+                @mouseover="updateVariant(index)"
+            >
+            </div>
+
+            <button v-on:click="addToCart()"
+                    :disabled="!inStock"
+                    :class="{ disabledButton: !inStock }"
+            >Add to Cart</button>
+
+            <button @click="removeFromCart()"
+                    :disabled="cart === 0"
+                    :class="{ disabledButton: cart === 0 }"
+            >Remove from Cart</button>
+
+            <div class="cart">
+              <p>Cart: {{ cart }}</p>
+            </div>
+
+          </div>
+        </div>
+      `,
+      data() {
+        return {
+          brand          : 'Vue Mastery',
+          product        : 'Socks',
+          description    : 'A pair of green socks',
+          onSale         : true,
+          details        : ["80% cotton", "20% polyester", "Looks sweet"],
+          selectedVariant: 0,
+          variants       : [
+            {
+              id       : 123,
+              color    : "green",
+              image    : './assets/vmSocks-green-onWhite.jpg',
+              inventory: 8,
+            },
+            {
+              id       : 999,
+              color    : "blue",
+              image    : './assets/vmSocks-blue-onWhite.jpg',
+              inventory: 0,
+            },
+          ],
+          cart: 0,
+        };
       },
       methods: {
         addToCart()      { this.cart++ },
@@ -102,6 +105,10 @@
           return this.variants[this.selectedVariant].inventory > 0
         },
       }
+    });
+
+    var app = new Vue({
+      el: '#app'
     })
   </script>
 </body>
